@@ -21,7 +21,7 @@
 include_recipe 'omnibus::_common'
 
 # Install the omnibus-toolchain package
-include_recipe 'omnibus::_omnibus_toolchain'
+include_recipe 'omnibus::_omnibus_toolchain' unless node['omnibus']['install_toolchain'] == false
 
 # Include other recipes. Note: they may not be executed in this order, since
 # private recipes may depend on each other.
