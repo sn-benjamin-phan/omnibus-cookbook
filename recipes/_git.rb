@@ -58,11 +58,13 @@ unless windows?
   # ca bundle that ships in the package. This can most likely be fixed by
   # a well placed `./configure` option when compiling git.
   #
-  execute "/opt/#{node['omnibus']['toolchain_name']}/bin/git config --global http.sslCAinfo /opt/#{node['omnibus']['toolchain_name']}/embedded/ssl/certs/cacert.pem" do
-    environment(
-      'HOME' => build_user_home
-    )
-    user node['omnibus']['build_user']
+  if ::File.exist?("/opt/#{node['omnibus']['toolchain_name']}/bin/git")
+    execute "/opt/#{node['omnibus']['toolchain_name']}/bin/git config --global http.sslCAinfo /opt/#{node['omnibus']['toolchain_name']}/embedded/ssl/certs/cacert.pem" do
+      environment(
+        'HOME' => build_user_home
+      )
+      user node['omnibus']['build_user']
+    end
   end
 
   ENV['GIT_SSL_CAINFO'] = "/opt/#{node['omnibus']['toolchain_name']}/embedded/ssl/certs/cacert.pem"
